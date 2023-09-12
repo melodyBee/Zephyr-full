@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -7,10 +7,14 @@ import axios from "axios";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { Button } from "react-bootstrap";
-
+import NavDropdown from "react-bootstrap/NavDropdown";
+import { UserContext } from "../../Context/context";
 export default function UserNav() {
   const [categories, setCategories] = useState([]);
   const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const { dispatch } = useContext(UserContext);
 
   useEffect(() => {
     axios
@@ -19,8 +23,9 @@ export default function UserNav() {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleLogout = () => {
+    dispatch({ type: "USER_LOGOUT" });
+  };
 
   return (
     <>
@@ -80,6 +85,13 @@ export default function UserNav() {
               <Link className="nav-link" to="/Products">
                 Products
               </Link>
+              <NavDropdown title="Profile" id="basic-nav-dropdown">
+                <NavDropdown.Item>
+                  <Button className="btn-dark " onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </NavDropdown.Item>
+              </NavDropdown>
             </Nav>
           </Navbar.Collapse>
         </Container>
