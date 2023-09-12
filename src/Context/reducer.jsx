@@ -3,7 +3,6 @@ export const reducer = (state, action) => {
     case "USER_LOGIN": {
       return { ...state, token: action.token };
     }
-
     case "USER_LOGOUT": {
       return { ...state, token: undefined };
     }

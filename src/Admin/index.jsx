@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.css";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import Category from "./pages/Category";
@@ -10,7 +11,8 @@ export default function Admin() {
     <div className="container-fluid m-0 p-0">
       <div className="row m-0 p-0 ">
         <div
-          className="col-md-3 col-4 m-0 p-0 bg-dark"
+          className="col-md-3 col-4 m-0 p-0 "
+          id="bg-brand"
           style={{ height: "100vh" }}
         >
           <Sidebar />

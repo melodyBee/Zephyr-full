@@ -6,13 +6,17 @@ import "../Guest.css";
 import { UserContext } from "../../Context/context";
 import Cookies from "js-cookie";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Added eye icons
+import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function LogIn() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const { state, dispatch } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -34,6 +38,7 @@ export default function LogIn() {
           type: "USER_LOGIN",
           token: json.data.token,
         });
+        navigate("/");
       })
       .catch((err) => console.log(err));
   };

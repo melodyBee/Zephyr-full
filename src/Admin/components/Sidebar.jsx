@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { HiOutlineHomeModern } from "react-icons/hi2";
 import { MdOutlineCategory } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
-
+import { UserContext } from "../../Context/context";
 export default function Sidebar() {
   const location = useLocation();
+  const { dispatch } = useContext(UserContext);
 
   const NavItems = [
     {
@@ -24,12 +25,21 @@ export default function Sidebar() {
     },
   ];
 
+  const handleLogout = () => {
+    dispatch({ type: "USER_LOGOUT" });
+  };
+
   return (
     <>
-      <div className="container">
-        <div className="row bg-lightb rounded p-3 ">
+      <div className="container ">
+        <div className="row bg-brand rounded p-3 headcont">
           <span className="mt-2 col-md-8">Admin Name</span>
-          <button className="btn btn-outline-secondary col-md-4">Logout</button>
+          <button
+            className="btn btn-outline-secondary col-md-4"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       </div>
       <ul className="nav flex-column pt-2">
@@ -37,16 +47,14 @@ export default function Sidebar() {
           <li
             key={key}
             className={`nav-item  ${
-              location.pathname == val.url
-                ? "bg-lightb rounded text-dark"
-                : null
+              location.pathname === val.url ? "bg-lightb rounded text-dark" : ""
             } `}
           >
             <Link
               className={`nav-link d-flex align-item-center gap-3 text-light ${
-                location.pathname == val.url
+                location.pathname === val.url
                   ? "bg-lightb rounded text-dark"
-                  : null
+                  : ""
               } `}
               to={val.url}
             >

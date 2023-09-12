@@ -7,6 +7,7 @@ import { UserContext } from "../../Context/context.jsx";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Added eye icons
+import { useNavigate } from "react-router-dom";
 
 export default function Sign() {
   const [Name, setName] = useState("");
@@ -17,6 +18,7 @@ export default function Sign() {
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
   const { state, dispatch } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -36,29 +38,23 @@ export default function Sign() {
       .post("http://localhost:8765/api/users/signup", payload)
       .then((json) => {
         Cookies.set("token", json.data.token);
+        console.log(json.data.token);
+        if (json.data.message === "Successfully Created") {
+          axios
+            .post("http://localhost:8765/api/users/login", payload)
+            .then((json) => {
+              Cookies.set("token", json.data.token);
 
-        if (json.data.Role) {
-          dispatch({
-            type: "SET_ROLE",
-            Role: json.data.Role,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "User role not found!",
-          });
+              dispatch({
+                type: "USER_LOGIN",
+                token: json.data.token,
+              });
+              navigate("/");
+            })
+            .catch((err) => console.log(err));
         }
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: err.message,
-        });
       });
   };
-
   return (
     <>
       <Form onSubmit={SignUpUser}>
@@ -87,8 +83,7 @@ export default function Sign() {
           <div className="row">
             <div className="col-8 slpass">
               <Form.Control
-                type={showPassword ? "text" : "password"}
-                // Toggle password visibility
+                type={showPassword ? "text" : "password"} // Toggle password visibility
                 placeholder="Password"
                 value={Password}
                 onChange={(e) => {
