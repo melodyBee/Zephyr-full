@@ -8,6 +8,8 @@ export default function User() {
   return (
     <>
       <>
+        {/* we need a chat option also review and add to faves and add to cart */}
+
         <UserNav />
         <Routes>
           <Route path="/" element={<Home />} />

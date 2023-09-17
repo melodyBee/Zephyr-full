@@ -6,7 +6,6 @@ import "../Guest.css";
 import { UserContext } from "../../Context/context";
 import Cookies from "js-cookie";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Added eye icons
-import { redirect } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function LogIn() {

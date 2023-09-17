@@ -5,12 +5,13 @@ import axios from "axios";
 export default function Category() {
   const [Category, setCategory] = useState([]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8765/api/products/products")
-  //     .then((json) => console.log(json))
-  //     .catch((err) => console.log(err));
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8765/api/category/get-all-categories`)
+      .then((json) => setCategory(json.data.category))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <div className="container">
@@ -28,11 +29,25 @@ export default function Category() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row"></th>
-                <td>Category Name</td>
-                <td>Category Image</td>
-              </tr>
+              {Array.isArray(Category) && Category.length > 0 ? (
+                Category.map((category, index) => (
+                  <tr key={index}>
+                    <th scope="row">{category.Id}</th>
+                    <td>{category.CategoryName}</td>
+                    <td>
+                      <img
+                        src={category.CategoryImage}
+                        alt={category.CategoryName}
+                        style={{ maxWidth: "100px" }}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3">No categories available.</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

@@ -4,9 +4,8 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import "../Pages/SignLog.css";
 import { UserContext } from "../../Context/context.jsx";
-import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Added eye icons
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 export default function Sign() {
@@ -15,7 +14,7 @@ export default function Sign() {
   const [Password, setPassword] = useState("");
   const [Number, setNumber] = useState("");
   const [selectedRole, setSelectedRole] = useState("User");
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
@@ -83,7 +82,7 @@ export default function Sign() {
           <div className="row">
             <div className="col-8 slpass">
               <Form.Control
-                type={showPassword ? "text" : "password"} // Toggle password visibility
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={Password}
                 onChange={(e) => {

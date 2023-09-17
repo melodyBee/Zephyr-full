@@ -9,6 +9,7 @@ import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { Button } from "react-bootstrap";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { UserContext } from "../../Context/context";
+
 export default function UserNav() {
   const [categories, setCategories] = useState([]);
   const [show, setShow] = useState(false);
@@ -19,7 +20,7 @@ export default function UserNav() {
   useEffect(() => {
     axios
       .get(`http://localhost:8765/api/category/get-all-categories`)
-      .then((json) => setCategories(json.data.category)) // Update to json.data.category
+      .then((json) => setCategories(json.data.category))
       .catch((err) => console.log(err));
   }, []);
 

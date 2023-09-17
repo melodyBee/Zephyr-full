@@ -17,8 +17,14 @@ function CategoryModal() {
 
   const AddCategory = (e) => {
     e.preventDefault();
-    // const payload = { CategoryName, CategoryImage };
-    // console.log(payload);
+    if (!CategoryName || CategoryName.trim() === "") {
+      console.log("Please enter a valid Category Name.");
+      return;
+    }
+    if (!CategoryImage) {
+      console.log("Please select a category image.");
+      return;
+    }
 
     const storageRef = ref(storage, `image/${CategoryImage.name}`);
 
@@ -26,12 +32,17 @@ function CategoryModal() {
       getDownloadURL(snapshot.ref)
         .then((url) => {
           const payload = { CategoryName, CategoryImage: url };
+          axios
+            .post(`http://localhost:8765/api/category/create-category`, payload)
+            .then((json) => {
+              setShow(false);
+            })
+            .catch((err) => alert(err.message));
           console.log(payload);
+          handleClose();
         })
         .catch((err) => console.log(err));
     });
-
-    console.log(CategoryImage.name);
   };
 
   return (
@@ -58,7 +69,7 @@ function CategoryModal() {
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>Category Image</Form.Label>
               <Form.Control
-                onChange={(e) => setCategoryImage(e.target.file)}
+                onChange={(e) => setCategoryImage(e.target.files[0])}
                 type="file"
               />
             </Form.Group>
